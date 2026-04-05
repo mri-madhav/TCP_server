@@ -9,7 +9,7 @@ using namespace std;
 
 int main() {
 
-    // 🔹 0. Initialize Winsock
+    // Initialize Winsock
     WSADATA wsaData;
 
     if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0) {
@@ -17,7 +17,7 @@ int main() {
         return 1;
     }
 
-    // 🔹 1. Socket Creation
+    //Socket Creation
     SOCKET serverSocket = INVALID_SOCKET;
 
     serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -31,7 +31,7 @@ int main() {
         cout << "socket() is OK!" << endl;
     }
 
-    // 🔹 2. Bind to Port 8080
+    // Bind to Port 8080
     sockaddr_in service;
     service.sin_family = AF_INET;
     InetPton(AF_INET, _T("127.0.0.1"), &service.sin_addr.s_addr);
@@ -47,13 +47,13 @@ int main() {
         cout << "bind() is OK!" << endl;
     }
 
-    // 🔹 3. Listen for Client
+    //  Listen for Client
     if (listen(serverSocket, 1) == SOCKET_ERROR)
         cout << "listen(): Error listening on socket " << WSAGetLastError() << endl;
     else
         cout << "listen() is OK, I'm waiting for connections..." << endl;
 
-    // 🔹 4. Accept Client
+    // Accept Client
     SOCKET acceptSocket;
 
     acceptSocket = accept(serverSocket, NULL, NULL);
@@ -67,7 +67,7 @@ int main() {
         cout << "accept() is OK!" << endl;
     }
 
-    // 🔹 5. Receive Message
+    // Receive Message
     char buffer[1024];
 
     int bytesRecv = recv(acceptSocket, buffer, 1024, 0);
@@ -80,7 +80,7 @@ int main() {
         cout << "recv() failed: " << WSAGetLastError() << endl;
     }
 
-    // 🔹 6. Cleanup
+    // Cleanup
     closesocket(acceptSocket);
     closesocket(serverSocket);
     WSACleanup();
